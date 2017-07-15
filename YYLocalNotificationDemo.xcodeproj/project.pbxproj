@@ -14,6 +14,7 @@
 		1F6FF3191F19AC58007C380C /* YYLocalNotificationDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F6FF3171F19AC58007C380C /* YYLocalNotificationDemo.xcdatamodeld */; };
 		1F6FF31B1F19AC58007C380C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F6FF31A1F19AC58007C380C /* Assets.xcassets */; };
 		1F6FF31E1F19AC58007C380C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F6FF31C1F19AC58007C380C /* LaunchScreen.storyboard */; };
+		1F6FF3271F19AC86007C380C /* YYLocalNotifyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6FF3261F19AC86007C380C /* YYLocalNotifyManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,9 @@
 		1F6FF31A1F19AC58007C380C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F6FF31D1F19AC58007C380C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F6FF31F1F19AC58007C380C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F6FF3251F19AC86007C380C /* YYLocalNotifyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYLocalNotifyManager.h; sourceTree = "<group>"; };
+		1F6FF3261F19AC86007C380C /* YYLocalNotifyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYLocalNotifyManager.m; sourceTree = "<group>"; };
+		1F6FF3281F19B413007C380C /* LocalNotificationPrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalNotificationPrefixHeader.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,8 @@
 				1F6FF30F1F19AC55007C380C /* AppDelegate.m */,
 				1F6FF3111F19AC56007C380C /* ViewController.h */,
 				1F6FF3121F19AC56007C380C /* ViewController.m */,
+				1F6FF3251F19AC86007C380C /* YYLocalNotifyManager.h */,
+				1F6FF3261F19AC86007C380C /* YYLocalNotifyManager.m */,
 				1F6FF3141F19AC57007C380C /* Main.storyboard */,
 				1F6FF31A1F19AC58007C380C /* Assets.xcassets */,
 				1F6FF31C1F19AC58007C380C /* LaunchScreen.storyboard */,
@@ -78,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				1F6FF30C1F19AC53007C380C /* main.m */,
+				1F6FF3281F19B413007C380C /* LocalNotificationPrefixHeader.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -113,7 +120,7 @@
 				TargetAttributes = {
 					1F6FF3071F19AC52007C380C = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = Q4U65JAZSA;
+						DevelopmentTeam = MCXV38GS3D;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -155,6 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F6FF3131F19AC56007C380C /* ViewController.m in Sources */,
+				1F6FF3271F19AC86007C380C /* YYLocalNotifyManager.m in Sources */,
 				1F6FF3191F19AC58007C380C /* YYLocalNotificationDemo.xcdatamodeld in Sources */,
 				1F6FF3101F19AC55007C380C /* AppDelegate.m in Sources */,
 				1F6FF30D1F19AC53007C380C /* main.m in Sources */,
@@ -279,11 +287,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = Q4U65JAZSA;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = MCXV38GS3D;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = YYLocalNotificationDemo/LocalNotificationPrefixHeader.pch;
 				INFOPLIST_FILE = YYLocalNotificationDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ueb.newfrog.YYLocalNotificationDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ueb.YYLocalNotificationDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -291,11 +305,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = Q4U65JAZSA;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = MCXV38GS3D;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = YYLocalNotificationDemo/LocalNotificationPrefixHeader.pch;
 				INFOPLIST_FILE = YYLocalNotificationDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ueb.newfrog.YYLocalNotificationDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ueb.YYLocalNotificationDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

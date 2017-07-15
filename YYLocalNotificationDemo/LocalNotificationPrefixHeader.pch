@@ -1,0 +1,23 @@
+//
+//  LocalNotificationPrefixHeader.pch
+//  YYLocalNotificationDemo
+//
+//  Created by Ryan on 2017/7/15.
+//  Copyright © 2017年 Ryan. All rights reserved.
+//
+
+#ifndef LocalNotificationPrefixHeader_pch
+#define LocalNotificationPrefixHeader_pch
+
+
+
+#define iOS8 ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0)
+
+#define iOS9 ([[UIDevice currentDevice].systemVersion doubleValue] >= 9.0)
+
+#define iOS10 ([[UIDevice currentDevice].systemVersion doubleValue] >= 10.0)
+
+
+
+
+#endif /* LocalNotificationPrefixHeader_pch */

@@ -7,8 +7,14 @@
 //
 
 #import "AppDelegate.h"
+#import <UserNotifications/UserNotifications.h>
 
-@interface AppDelegate ()
+@interface AppDelegate () <UNUserNotificationCenterDelegate>
+
+///* <#description#> */
+//@property (nonatomic,strong) UILocalNotification *localNotification;
+///* <#description#> */
+//@property (nonatomic,strong) UNLocationNotificationTrigger *<#name#>;
 
 @end
 
@@ -17,8 +23,141 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    
+    
+    [self registerLocalNotifyPushWithApplication:application];
+    
+    
+
     return YES;
 }
+
+//http://www.jianshu.com/p/9cf65105364d
+//MARK:----获取系统通知授权----
+- (void)registerLocalNotifyPushWithApplication:(UIApplication *)application {
+    
+    if iOS10 {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        center.delegate = self;
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert)  completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            
+            if (!error && granted) {
+                NSLog(@"获得授权");
+            } else {
+                NSLog(@"没有获得授权");
+                UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"System Info" message:@"Please open notifycation to receive message" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                
+                UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                
+                [alertCtrl addAction:cancelAction];
+                [alertCtrl addAction:confirmAction];
+                
+                [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertCtrl animated:true completion:nil];
+            }
+        }];
+        //获取当前的通知设置，UNNotificationSettings 是只读对象，不能直接修改，只能通过以下方法获取
+        [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+            NSLog(@"------%@",settings);
+        }];
+        
+    } else if iOS8 {
+        
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
+        [application registerUserNotificationSettings:settings];
+    }
+//    else { //低于ios8系统        
+//        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+//    }
+}
+
+
+//MARK:-UNUserNotificationCenterDelegate  >=ios10
+//app 在前台的时候 在展示通知前进行处理，即有机会在展示通知前再修改通知内容。
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    
+    //1,拿到内容，处理通知
+//    UNNotificationRequest *request = notification.request;
+//    
+//    UNNotificationContent *content = request.content;
+//    
+//    UNNotificationSound *sound  = content.sound;
+//    
+//    NSDictionary *userInfo = content.userInfo;
+//    
+//    NSNumber *badge = content.badge;
+//    
+//    NSString *alertBody = content.body;
+//    
+//    NSString *title = content.title;
+//    
+//    NSString *subTitle = content.subtitle;
+    
+    if ([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+         NSLog(@"receive remote message");
+    } else {
+        NSLog(@"receive local message");
+    }
+    
+    //2,处理完用 completionHandler 用于指示在前台显示通知的形式
+    completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
+}
+
+//通知的点击事件
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    
+    UNNotificationRequest *request = response.notification.request;
+    
+    UNNotificationContent *content = request.content;
+    
+//    UNNotificationSound *sound  = content.sound;
+    
+//    NSDictionary *userInfo = content.userInfo;
+    
+    NSInteger badge = content.badge.integerValue;
+    badge--;
+    badge = (badge >= 0) ? badge : 0;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
+    
+//    NSString *alertBody = content.body;
+//    
+//    NSString *title = content.title;
+//    
+//    NSString *subTitle = content.subtitle;
+    
+    completionHandler();
+    
+}
+
+
+//MARK:-ios10之前的本地通知在这处理
+//接收到本地通知
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    
+    NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
+    badge--;
+    badge = (badge >= 0) ? badge : 0;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
+    
+}
+
+//MARK:-注册远程推送 友盟注册推送
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    
+    
+}
+
+
+
+
+
+
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -40,6 +179,11 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
+    badge--;
+    badge = (badge >= 0) ? badge : 0;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
 }
 
 
